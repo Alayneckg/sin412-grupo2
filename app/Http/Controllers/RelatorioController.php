@@ -14,7 +14,10 @@ class RelatorioController extends Controller
      */
     public function index()
     {
-        //
+        $relatorios = Relatorio::all();
+        return view('analytics',[
+            'relatorios' => $relatorios,
+        ]);
     }
 
     /**

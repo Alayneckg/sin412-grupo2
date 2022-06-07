@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TarefaController extends Controller
 {
@@ -14,7 +15,18 @@ class TarefaController extends Controller
      */
     public function index()
     {
-        //
+        $tarefas = Auth::user()->tarefa;
+        return view('tarefas',[
+            'tarefas' => $tarefas,
+        ]);
+    }
+
+    public function calendario()
+    {
+        $tarefas = Auth::user()->tarefa;
+        return view('calendario',[
+            'tarefas' => $tarefas,
+        ]);
     }
 
     /**
