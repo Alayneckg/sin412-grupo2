@@ -8,26 +8,6 @@ use Illuminate\Http\Request;
 class CicloController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,30 +15,16 @@ class CicloController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Ciclo::create(
+            [
+                'label' => $request['label'],
+                'tempo_pausa' => $request['tempo_pausa'],
+                'tempo_foco' => $request['tempo_foco'],
+            ]
+        );
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ciclo  $ciclo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ciclo $ciclo)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ciclo  $ciclo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ciclo $ciclo)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,9 +33,17 @@ class CicloController extends Controller
      * @param  \App\Models\Ciclo  $ciclo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ciclo $ciclo)
+    public function update(Request $request)
     {
-        //
+        $ciclo = Ciclo::findOrFail($request['id']);
+        $ciclo->update(
+            [
+                'label' => $request['label'],
+                'tempo_pausa' => $request['tempo_pausa'],
+                'tempo_foco' => $request['tempo_foco'],
+            ]
+        );
+        return redirect()->back();
     }
 
     /**
@@ -78,8 +52,10 @@ class CicloController extends Controller
      * @param  \App\Models\Ciclo  $ciclo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ciclo $ciclo)
+    public function destroy(Request $request)
     {
-        //
+        $ciclo = Ciclo::findOrFail($request['id']);
+        $ciclo->delete();
+        return redirect()->back();
     }
 }

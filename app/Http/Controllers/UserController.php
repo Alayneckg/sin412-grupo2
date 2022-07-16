@@ -3,72 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Ciclo;
+use App\Models\Tarefa;
+use App\Models\Relatorio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     public function configuracoes()
     {
-        $user = Auth::user();
-        $users = User::all();
-        dd($users, $user);
+        $myUser = Auth::user();
+        $ciclos = Ciclo::get();
+        $users = User::get();
         return view('configuracoes',[
-            'user' => $user,
+            'myUser' => $myUser,
+            'ciclos' => $ciclos,
+            'users' => $users,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -78,9 +31,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = User::findOrFail($request['id']);
+        if($request['tdah'] == 1){
+            $tdah = true;
+        }else{
+            $tdah = false;
+        }
+        $user->update(
+            [
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'phone' => $request['phone'],
+                'TDAH' => $tdah,
+            ]
+        );
+        return redirect()->back();
     }
 
     /**
@@ -89,8 +56,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = User::findOrFail($request['id']);
+        foreach($user->tarefas as $tarefa){
+            $tarefa->delete();
+        }
+        foreach($user->relatorios as $relatorio){
+            $relatorio->delete();
+        }
+        $user->delete();
+        return redirect()->back();
     }
 }

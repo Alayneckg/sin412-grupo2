@@ -3,7 +3,7 @@
 
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <link rel="shortcut icon" href="../assets/tomato tasks logo icon.png" type="image/x-icon">
     <style>
         .accordion-flush .accordion-item {
             border-top: 0;
@@ -42,6 +42,12 @@
         .accordion-button:focus {
             outline:0 !important;
         }
+        .info-card{
+            border-radius: 17px;
+            background-color: #ffffffb8;
+            box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%), 0 3px 10px 0 rgb(0 0 0 / 9%);
+            padding: 20px;
+        }
     </style>
 @endsection
 
@@ -59,18 +65,65 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-headingOne">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                    28/04/2022
-                            </button>
-                            </h2>
-                            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
+                    <div class="accordion accordion-flush" id="accordionFlush">
+                        @isset($tarefas)
+                            @foreach($tarefas as $data => $dados)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="flush-{{$data}}">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{$data}}" aria-expanded="false" aria-controls="flush-collapse-{{$data}}">
+                                           {{ (new Datetime($data))->format('d/m/Y') }}
+                                    </button>
+                                    </h2>
+                                    <div id="flush-collapse-{{$data}}" class="accordion-collapse collapse" aria-labelledby="flush-{{$data}}" data-bs-parent="#accordionFlush">
+                                        <div class="row" style="padding: 20px; font-size: 0.9rem;">
+                                            @foreach($dados as $tarefa)
+                                                <div class="col-lg-6" style="padding:10px; padding-left: 20px; padding-right: 20px;">
+                                                    <div class="row info-card">
+                                                        <div class="col-lg-12">
+                                                            <strong style="font-size: 1.1rem; color: #8C1515">Tarefa {{ $tarefa->id}}</strong> @if(Auth::user()->papel == 'admin')<small>- {{ $tarefa->user->name }}</small>@endif
+                                                            <br>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <p style="color: #591616; font-weight: 500;">Título&nbsp;&nbsp;</p>
+                                                            <span>{{ $tarefa->titulo }}</span>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <p style="color: #591616; font-weight: 500;">Descrição&nbsp;&nbsp;</p>
+                                                            <span>{{ $tarefa->descricao }}</span>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <p style="color: #591616; font-weight: 500;">Complexidade&nbsp;&nbsp;</p>
+                                                            <span style="text-transform:capitalize;">{{ $tarefa->complexidade }}</span>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <hr>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <p style="color: #591616; font-weight: 500;">Prioridade&nbsp;&nbsp;</p>
+                                                            <span style="text-transform:capitalize;">{{ $tarefa->prioridade }}</span>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <p style="color: #591616; font-weight: 500;">Tipo de ciclo&nbsp;&nbsp;</p>
+                                                            <span style="text-transform:capitalize;">{{ $tarefa->ciclo->label }}</span>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <p style="color: #591616; font-weight: 500;">Quantidade de ciclos&nbsp;&nbsp;</p>
+                                                            <span>{{ $tarefa->qtd_ciclos }}</span>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <p style="color: #591616; font-weight: 500;">Tempo a tarefa&nbsp;&nbsp;</p>
+                                                            <span>{{ $tarefa->tempo }}</span><span> &nbsp;min</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endisset
+                        <!-- <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                                     27/04/2022
@@ -89,7 +142,7 @@
                             <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

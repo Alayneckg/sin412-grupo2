@@ -62,8 +62,8 @@
             .brand_logo {
                 height: 150px;
                 width: 150px;
-                border-radius: 50%;
-                border: 2px solid white;
+                border-radius: 15px;
+                /* border: 2px solid white; */
             }
             .form_container {
                 margin-top: 150px;
@@ -159,7 +159,7 @@
                 <div class="user_card">
                     <div class="d-flex justify-content-center">
                         <div class="brand_logo_container">
-                            <img src="../assets/user.png" class="brand_logo" alt="Logo">
+                            <img src="../assets/user 2.png" class="brand_logo" alt="Logo">
                         </div>
                     </div>
                     <div class="d-flex justify-content-center form_container">

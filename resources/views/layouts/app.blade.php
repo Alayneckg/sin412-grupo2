@@ -10,11 +10,14 @@
         <link rel="shortcut icon" href="../assets/tomato tasks logo icon.png" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600&family=Outfit:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/> -->
         <style>
             * {
                 font-family: 'Outfit', sans-serif !important;
                 font-weight: 400;
+            }
+            html{
+                height: 100%;
             }
             body{
                 background-image: url("../assets/tomato\ taks\ logo\ white\ 2.png");
@@ -145,6 +148,7 @@
             </footer>
         </div>
     </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script>
     @yield('scripts')
 </html>

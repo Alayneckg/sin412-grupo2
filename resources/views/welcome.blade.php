@@ -1,223 +1,787 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+@extends('layouts.app')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+@section('css')
+    <style>
+        .botao-login {
+            text-align: center;
+            background-color: #8d2619;
+            border-radius: 17px;
+            color: white;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700;
+            font-size: 30px;
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px !important;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            align-items:center;
+            justify-content: center;
+            border: none;
+        }
+        .botao-login img{
+            height: 30px;
+        }
+        .botao-login:hover{
+            box-shadow: 0px 15px 25px -5px rgba(darken(dodgerblue, 40%));
+            transform: scale(1.03);
+        }
+        .botao-login:active{
+            box-shadow: 0px 4px 8px rgba(darken(dodgerblue, 30%));
+            transform: scale(.98);
+        }
+        .timer{
+            background-color: #ffffff;
+            color: #591616;
+            font-size: 60px;
+            text-align: center;
+            font-weight: 700;
+            padding: 10px;
+            margin: auto;
+            width: 100%;
+            border-radius: 17px;
+            display: flex;
+            align-items:center;
+            justify-content: center;
+        }
+        .time{
+            color: #591616;
+            font-size: 60px;
+            font-weight: 700;
+        }
+        .card-task{
+            margin: 30px !important;
+            border-radius: 17px !important;
+            background-color: #ffffffb8;
+            min-height: 450px;
+        }
+        .title-task{
+            font-style: normal;
+            font-weight: 500;
+            font-size: 45px;
+            color: #591616;
+            text-align: center;
+        }
+        .text-task{
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 25px;
+            color: #591616;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 0;
+        }
+        .card-title {
+            flex-wrap: nowrap;
+            max-width: 80%;
+        }
 
-        <!-- Styles -->
-        <style>
-            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;}video{max-width:100%;height:auto}.bg-white{--bg-opacity:1;background-color:#fff;background-color:rgba(255,255,255,var(--bg-opacity))}.bg-gray-100{--bg-opacity:1;background-color:#f7fafc;background-color:rgba(247,250,252,var(--bg-opacity))}.border-gray-200{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.text-center{text-align:center}.text-gray-200{--text-opacity:1;color:#edf2f7;color:rgba(237,242,247,var(--text-opacity))}.text-gray-300{--text-opacity:1;color:#e2e8f0;color:rgba(226,232,240,var(--text-opacity))}.text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.text-gray-500{--text-opacity:1;color:#a0aec0;color:rgba(160,174,192,var(--text-opacity))}.text-gray-600{--text-opacity:1;color:#718096;color:rgba(113,128,150,var(--text-opacity))}.text-gray-700{--text-opacity:1;color:#4a5568;color:rgba(74,85,104,var(--text-opacity))}.text-gray-900{--text-opacity:1;color:#1a202c;color:rgba(26,32,44,var(--text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--bg-opacity:1;background-color:#2d3748;background-color:rgba(45,55,72,var(--bg-opacity))}.dark\:bg-gray-900{--bg-opacity:1;background-color:#1a202c;background-color:rgba(26,32,44,var(--bg-opacity))}.dark\:border-gray-700{--border-opacity:1;border-color:#4a5568;border-color:rgba(74,85,104,var(--border-opacity))}.dark\:text-white{--text-opacity:1;color:#fff;color:rgba(255,255,255,var(--text-opacity))}.dark\:text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.dark\:text-gray-500{--tw-text-opacity:1;color:#6b7280;color:rgba(107,114,128,var(--tw-text-opacity))}}
-        </style>
+        select {
+            width: 100%;
+            height: 46px;
+            background-color: #00000008;
+            border: 1px solid #eee;
+            outline: none;
+            font-size: 15px;
+            font-weight: 400;
+            color: #2a2a2a;
+            padding: 0px 20px;
+            border-radius: 23px;
+            margin-bottom: 30px;
+            box-shadow: 3px 3px 6px rgb(163 177 198 / 49%), 3px 3px 6px rgb(255 255 255);
+        }
+        input{
+            font-family: 'Outfit', sans-serif !important;
+            width: 100%;
+            height: 46px;
+            background-color: #00000008;
+            border: 1px solid #eee;
+            outline: none;
+            font-size: 15px;
+            font-weight: 400;
+            color: #2a2a2a;
+            padding: 0px 20px;
+            border-radius: 23px;
+            margin-bottom: 30px;
+            box-shadow: 3px 3px 6px rgb(163 177 198 / 49%), 3px 3px 6px rgb(255 255 255);
+        }
+        .button{
+            text-align: center;
+            background-color: white;
+            border-radius: 17px;
+            color: #8d2619 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700;
+            width: 100%;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border: none;
+        }
+        label{
+            color: #565656;
+        }
+        .modal-content label{
+            padding-left: 9px;
+            padding: 5px;
+        }
+        .button-delete{
+            text-align: center;
+            background-color: #8d2619;
+            border-radius: 17px;
+            color: white !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 700;
+            width: 100%;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border: none;
+        }
+        time {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        img{
+            user-drag: none;
+            -webkit-user-drag: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+        .badge-info {
+            color: #fff !important;
+            background-color: #DF7B7B !important;
+        }
+        .badge-warning {
+            color: white !important;
+            background-color: #D83636 !important;
+        }
+        .badge-danger {
+            color: white !important;
+            background-color: #591616 !important;
+        }
+        .group input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            z-index: 1;
+            width: 50%;
+        }
+        .group label {
+            position: relative;
+            margin-right: 1em;
+            padding-left: 2em;
+            padding-right: 1em;
+            line-height: 1.3;
+            cursor: pointer;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            font-weight: 500 !important;
+        }
+        .group label::before {
+            box-sizing: border-box;
+            content: " ";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 1.4em;
+            height: 1.4em;
+            border: 2px solid #8C1515;
+            border-radius: .25em;
+            z-index: 1;
+        }
+        .group input[type="radio"] + label::before {
+            border-radius: 1em;
+        }
 
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-            #container{
-                border:1px solid #333;
-                border-radius :20px;
-                width:400px;
-                margin:20px auto;
-                padding:20px;
-                text-align:center;
-                background : #333;
-            }
+        .group input[type="radio"]:checked + label {
+            padding-left: 1em;
+            color: #8C1515 !important;
+        }
+        .group input[type="radio"]:checked + label::before {
+            top: 0;
+            width: 100%;
+            height: 1.3em;
+            /* background: #e7e1e1 !important; */
+        }
+        .group label,
+            label::before {
+            -webkit-transition: .25s all ease;
+            -o-transition: .25s all ease;
+            transition: .25s all ease;
+        }
+    </style>
+@endsection
 
-            #timer{
-                color:#f00;
-                font-size:50px;
-                margin:10px auto;
-                border : 5px solid red;
-                border-radius:50%;
-                width:200px;
-                height:200px;
-                overflow:hidden;
-                position:relative;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                cursor:default;
-            }
-
-            #time{
-                margin-top:70px;
-                z-index : 1;
-                position:relative;
-            }
-
-            #filler{
-                background : #ddffcc;
-                height: 0px;
-                width: 200px;
-                position:absolute;
-                bottom:0;
-            }
-
-            #buttons button {
-                background:#4da6ff;
-                border:none;
-                color:#fff;
-                cursor:pointer;
-                padding:5px;
-                width:90px;
-                margin:10px auto;
-                font-size:14px;
-                height : 50px;
-                border-radius : 50px;
-            }
-
-            #buttons button#shortBreak{
-                background : #0c0;
-            }
-
-            #buttons button#longBreak{
-                background : #080;
-            }
-
-            #buttons button#stop{
-                background : #f00;
-            }
-
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
+@section('content')
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <span style="font-size: 2.5rem; margin: 0; font-weight: 700; color: #591616;">Pomodoro board</span>
                 </div>
-            @endif
-
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
-                        <g clip-path="url(#clip0)" fill="#EF3B2D">
-                            <path d="M248.032 44.676h-16.466v100.23h47.394v-14.748h-30.928V44.676zM337.091 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.431 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162-.001 2.863-.479 5.584-1.432 8.161zM463.954 87.202c-2.101-3.341-5.083-5.965-8.949-7.875-3.865-1.909-7.756-2.864-11.669-2.864-5.062 0-9.69.931-13.89 2.792-4.201 1.861-7.804 4.417-10.811 7.661-3.007 3.246-5.347 6.993-7.016 11.239-1.672 4.249-2.506 8.713-2.506 13.389 0 4.774.834 9.26 2.506 13.459 1.669 4.202 4.009 7.925 7.016 11.169 3.007 3.246 6.609 5.799 10.811 7.66 4.199 1.861 8.828 2.792 13.89 2.792 3.913 0 7.804-.955 11.669-2.863 3.866-1.908 6.849-4.533 8.949-7.875v9.021h15.607V78.182h-15.607v9.02zm-1.432 32.503c-.955 2.578-2.291 4.821-4.009 6.73-1.719 1.91-3.795 3.437-6.229 4.582-2.435 1.146-5.133 1.718-8.091 1.718-2.96 0-5.633-.572-8.019-1.718-2.387-1.146-4.438-2.672-6.156-4.582-1.719-1.909-3.032-4.152-3.938-6.73-.909-2.577-1.36-5.298-1.36-8.161 0-2.864.451-5.585 1.36-8.162.905-2.577 2.219-4.819 3.938-6.729 1.718-1.908 3.77-3.437 6.156-4.582 2.386-1.146 5.059-1.718 8.019-1.718 2.958 0 5.656.572 8.091 1.718 2.434 1.146 4.51 2.674 6.229 4.582 1.718 1.91 3.054 4.152 4.009 6.729.953 2.577 1.432 5.298 1.432 8.162 0 2.863-.479 5.584-1.432 8.161zM650.772 44.676h-15.606v100.23h15.606V44.676zM365.013 144.906h15.607V93.538h26.776V78.182h-42.383v66.724zM542.133 78.182l-19.616 51.096-19.616-51.096h-15.808l25.617 66.724h19.614l25.617-66.724h-15.808zM591.98 76.466c-19.112 0-34.239 15.706-34.239 35.079 0 21.416 14.641 35.079 36.239 35.079 12.088 0 19.806-4.622 29.234-14.688l-10.544-8.158c-.006.008-7.958 10.449-19.832 10.449-13.802 0-19.612-11.127-19.612-16.884h51.777c2.72-22.043-11.772-40.877-33.023-40.877zm-18.713 29.28c.12-1.284 1.917-16.884 18.589-16.884 16.671 0 18.697 15.598 18.813 16.884h-37.402zM184.068 43.892c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002-35.648-20.524a2.971 2.971 0 00-2.964 0l-35.647 20.522-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v38.979l-29.706 17.103V24.493a3 3 0 00-.103-.776c-.024-.088-.073-.165-.104-.25-.058-.157-.108-.316-.191-.46-.056-.097-.137-.176-.203-.265-.087-.117-.161-.242-.265-.345-.085-.086-.194-.148-.29-.223-.109-.085-.206-.182-.327-.252l-.002-.001-.002-.002L40.098 1.396a2.971 2.971 0 00-2.964 0L1.487 21.919l-.002.002-.002.001c-.121.07-.219.167-.327.252-.096.075-.205.138-.29.223-.103.103-.178.228-.265.345-.066.089-.147.169-.203.265-.083.144-.133.304-.191.46-.031.085-.08.162-.104.25-.067.249-.103.51-.103.776v122.09c0 1.063.568 2.044 1.489 2.575l71.293 41.045c.156.089.324.143.49.202.078.028.15.074.23.095a2.98 2.98 0 001.524 0c.069-.018.132-.059.2-.083.176-.061.354-.119.519-.214l71.293-41.045a2.971 2.971 0 001.489-2.575v-38.979l34.158-19.666a2.971 2.971 0 001.489-2.575V44.666a3.075 3.075 0 00-.106-.774zM74.255 143.167l-29.648-16.779 31.136-17.926.001-.001 34.164-19.669 29.674 17.084-21.772 12.428-43.555 24.863zm68.329-76.259v33.841l-12.475-7.182-17.231-9.92V49.806l12.475 7.182 17.231 9.92zm2.97-39.335l29.693 17.095-29.693 17.095-29.693-17.095 29.693-17.095zM54.06 114.089l-12.475 7.182V46.733l17.231-9.92 12.475-7.182v74.537l-17.231 9.921zM38.614 7.398l29.693 17.095-29.693 17.095L8.921 24.493 38.614 7.398zM5.938 29.632l12.475 7.182 17.231 9.92v79.676l.001.005-.001.006c0 .114.032.221.045.333.017.146.021.294.059.434l.002.007c.032.117.094.222.14.334.051.124.088.255.156.371a.036.036 0 00.004.009c.061.105.149.191.222.288.081.105.149.22.244.314l.008.01c.084.083.19.142.284.215.106.083.202.178.32.247l.013.005.011.008 34.139 19.321v34.175L5.939 144.867V29.632h-.001zm136.646 115.235l-65.352 37.625V148.31l48.399-27.628 16.953-9.677v33.862zm35.646-61.22l-29.706 17.102V66.908l17.231-9.92 12.475-7.182v33.841z"/>
-                        </g>
-                    </svg>
-                </div>
-
-                <div id="pomodoro-app">
-                    <div id="container">
-                        <div id="timer">
-                            <div id="time">
-                                <span id="minutes">25</span>
-                                <span id="colon">:</span>
-                                <span id="seconds">00</span>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+            <!-- Pomodor Timer -->
+                <div class="col-lg-6" style="margin-bottom: 30px;">
+                    <div class="card" style="width: 45%; float: right; background-color: transparent; box-shadow: none;">
+                        <time style="display: none;" id="session-length"></time>
+                        <time style="display: none;" id="break-length"></time>
+                        <!-- Session Length -->
+                        <span style="display: none;" id="foco-start">0.2</span>
+                        <span style="display: none;" id="pausa-start">0.2</span>
+                        <header id="type"></header>
+                        <div class="card-body timer">
+                            <div id="countdown-container" style="background-color: #ffffff; padding: 10px; display: flex; align-items:center; justify-content: center;">
+                                <time id="countdown" style="font-size: 60px; font-weight: 700;"></time>
+                                <img src="../assets/tecnica-pomodoro (3).png" style="height: 63px; vertical-align:middle">
                             </div>
-                            <div id="filler"></div>
                         </div>
-
-                        <div id="buttons">
-                            <button id="work">Work</button>
-                            <button id="shortBreak">Short Break</button>
-                            <button id="longBreak">Long Break</button>
-                            <button id="stop">Stop</button>
+                        <div id="button-container">
+                            <div class="row">
+                                <div class="col-lg-6" onclick="timer_function()">
+                                    <button type="button" id="start-session" class="botao-login"><img  id="img-start" name="start" src="../assets/botao-play-ponta-de-seta.png"><span id="text-start" style="font-weight: 700;font-size: 30px;">&nbsp;START</span></button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button type="button" id="stop-session" class="botao-login" style="background-color: #b1a6a67d; color: #59150E"><img src="data:image/png;base64,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">&nbsp;RESET</button>
+                                </div>
+                                <button type="button" id="reset-session" class="botao-login" style="display:none"><img >&nbsp;RESET</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Indicador de Foco e Pausa -->
+                <div class="col-lg-6">
+                    <div class="card" style="width: 100%; float: left; margin-left: 30px; background-color: transparent; box-shadow: none;">
+                        <div class="card-body" id="pomodoro-status">
+                            <img src="../assets/Ellipse_1.png" style="height: 45px;">
+                            <img src="../assets/Line_1.png">
+                            <img src="../assets/Ellipse_2.png" style="height: 45px;"><br>
+                            <span style="margin-left: 5px; color:#591616; font-weight: 300;">Foco</span>
+                            <span style="margin-left: 57px; color:#591616; font-weight: 300;">Pausa</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-10" style="margin: auto">
+                    <div id="div-cards">
+                        <div class="row">
+                            <!-- To do -->
+                            <div class="col-lg-4">
+                                <div class="card card-task">
+                                    <img onclick="modal_create()" src="../assets/plus_create.png" style="top: 0; right: 0; float: right; text-align: end; position: absolute; margin: 7px;">
+                                    <br>
+                                    <p class="title-task">To do</p>
+                                    <div class="card-body" style="padding: 5px">
+                                        @isset($tarefas[0])
+                                            @foreach($tarefas as $tarefa)
+                                                @if($tarefa->status == 'To do')
+                                                    <div class="card" style="background: #F4F4F4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;">
+                                                        <div class="card-header" style="padding-left: 5px;padding-right: 8px;">
+                                                            <h3 class="card-title">
+                                                                <div class="group">
+                                                                    <input type="radio" name="rb" id="rb{{$tarefa->id}}" value="{{ $tarefa }}"/>
+                                                                    <label for="rb{{$tarefa->id}}">{{ $tarefa->titulo}}</label>
+                                                                </div>
+                                                            </h3>
+                                                            <div class="card-tools">
+                                                                <span
+                                                                    @if($tarefa->prioridade == 'baixa')
+                                                                        class="badge badge-info"
+                                                                    @elseif($tarefa->prioridade == 'media')
+                                                                        class="badge badge-warning"
+                                                                    @elseif($tarefa->prioridade == 'alta')
+                                                                        class="badge badge-danger"
+                                                                    @endif
+                                                                > {{ $tarefa->prioridade }}</span>
+                                                                <button type="button" class="btn btn-tool" onclick="modal_tarefa('{{ $tarefa }}','{{ $tarefa->ciclo->label}}')">
+                                                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAAB2klEQVRIieWWQUgVURiFz39nRgpn51wf5D4FCdoYhFDtjSAXtZZAV0aWtnaf5iJs+SAIEVy0aVHLKFKwjQjmxqXKc+bV5vkmGeceF77iUfOgO3hX71/+h3u+uZf/3jlAt5WUWbSg9TSARwIokm+eJclLAegUvKD1KoCHbQYk+X42Se45A7+KoisnIvv/CCQ9cnimXv/+v17KBnyi1I1CQUQyzxux8bIC9wDbHST6xuw4Az8+OtoDsN7eaw3V1tMk+eYMDACNOL4DoAryB4CfJFcaQTBq69N9VeoBWdY6bJK3lQiNUp/marVj5+DFSuUuyTWQl1qt1ADjz+P4gzPwstZhKhK3QX9XSqW0zc6tpvoXcKsACgKXPdJqsq3AApgOfeZ5XqhdCDhX6jOA9O8+gRS+v16w5GLAc7XasQHGBWi2/oEk0KTIfdvJLnWdXlQqvTg9vSmkMAi+lrlO3VfWRz0P9IT9/VUxZowiAuBjIwgm5g8OmjY+vi04jKIvIEcof775QZhlQwSu2+Quq6leHBi4CpGipHFtqa/PXQIxWTbcQRLjeYPOwL4xG0XHKQCR55vOwDNJckiRt+1wOX9E3s3W67s2XuUCfRRNisgUACig+iSOX9sG+u6rMx1AtffsWN05AAAAAElFTkSuQmCC">
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <div class="card" style="background: #F4F4F4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;" onclick="modal_create()">
+                                                <p class="text-task">Crie as tarefas a fazer no dia!</p>
+                                                <img src="../assets/plus_button.png" style="width: 50px; margin: auto; margin-bottom: 10px; ">
+                                            </div>
+                                        @endisset
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Doing -->
+                            <div class="col-lg-4">
+                                <div class="card card-task">
+                                    <br>
+                                    <p class="title-task">Doing</p>
+                                    <div class="card-body" style="padding: 5px">
+                                        @isset($tarefas[0])
+                                            @foreach($tarefas as $tarefa)
+                                                @if($tarefa->status == 'Doing')
+                                                    <div class="card" style="background: #F4F4F4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;">
+                                                        <div class="card-header" style="padding-left: 5px;padding-right: 8px;">
+                                                            <h3 class="card-title">
+                                                                <div class="group">
+                                                                    <input type="radio" name="rb" id="rb{{$tarefa->id}}" value="{{ $tarefa }}"/>
+                                                                    <label for="rb{{$tarefa->id}}">{{ $tarefa->titulo}}</label>
+                                                                </div>
+                                                            </h3>
+                                                            <div class="card-tools">
+                                                                <span
+                                                                    @if($tarefa->prioridade == 'baixa')
+                                                                        class="badge badge-info"
+                                                                    @elseif($tarefa->prioridade == 'media')
+                                                                        class="badge badge-warning"
+                                                                    @elseif($tarefa->prioridade == 'alta')
+                                                                        class="badge badge-danger"
+                                                                    @endif
+                                                                > {{ $tarefa->prioridade }}</span>
+                                                                <button type="button" class="btn btn-tool" onclick="modal_tarefa('{{ $tarefa }}','{{ $tarefa->ciclo->label}}')">
+                                                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAAB2klEQVRIieWWQUgVURiFz39nRgpn51wf5D4FCdoYhFDtjSAXtZZAV0aWtnaf5iJs+SAIEVy0aVHLKFKwjQjmxqXKc+bV5vkmGeceF77iUfOgO3hX71/+h3u+uZf/3jlAt5WUWbSg9TSARwIokm+eJclLAegUvKD1KoCHbQYk+X42Se45A7+KoisnIvv/CCQ9cnimXv/+v17KBnyi1I1CQUQyzxux8bIC9wDbHST6xuw4Az8+OtoDsN7eaw3V1tMk+eYMDACNOL4DoAryB4CfJFcaQTBq69N9VeoBWdY6bJK3lQiNUp/marVj5+DFSuUuyTWQl1qt1ADjz+P4gzPwstZhKhK3QX9XSqW0zc6tpvoXcKsACgKXPdJqsq3AApgOfeZ5XqhdCDhX6jOA9O8+gRS+v16w5GLAc7XasQHGBWi2/oEk0KTIfdvJLnWdXlQqvTg9vSmkMAi+lrlO3VfWRz0P9IT9/VUxZowiAuBjIwgm5g8OmjY+vi04jKIvIEcof775QZhlQwSu2+Quq6leHBi4CpGipHFtqa/PXQIxWTbcQRLjeYPOwL4xG0XHKQCR55vOwDNJckiRt+1wOX9E3s3W67s2XuUCfRRNisgUACig+iSOX9sG+u6rMx1AtffsWN05AAAAAElFTkSuQmCC">
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <div class="card" style="background: #F4F4F4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;" >
+                                                <p class="text-task">Ao iniciar a tarefa, ela será atualizada para cá!</p>
+                                            </div>
+                                        @endisset
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Done -->
+                            <div class="col-lg-4">
+                                <div class="card card-task">
+                                    <br>
+                                    <p class="title-task">Done</p>
+                                    <div class="card-body" style="padding: 5px">
+                                        <div class="card" style="background: #F4F4F4; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); border-radius: 10px;">
+                                            <p class="text-task" >Arraste as tarefas finalizadas aqui!</p>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
-<script>
-    var pomodoro = {
-        started : false,
-        minutes : 0,
-        seconds : 0,
-        fillerHeight : 0,
-        fillerIncrement : 0,
-        interval : null,
-        minutesDom : null,
-        secondsDom : null,
-        fillerDom : null,
-        init : function(){
-        var self = this;
-        this.minutesDom = document.querySelector('#minutes');
-        this.secondsDom = document.querySelector('#seconds');
-        this.fillerDom = document.querySelector('#filler');
-        this.interval = setInterval(function(){
-            self.intervalCallback.apply(self);
-        }, 1000);
-        document.querySelector('#work').onclick = function(){
-            self.startWork.apply(self);
+    </section>
+    <div class="modal fade" id="modal-add" role="dialog">
+        <div class="modal-dialog modal-lg" style="max-width: 60% !important;">
+            <form id="contact" action="{{ route('tarefas.store')}}" method="POST">
+                {{ csrf_field() }}
+                <div class="modal-content" style="background-color: #ffffffeb !important; backdrop-filter: blur(5px); border-radius: 25px;">
+                    <div class="modal-header">
+                        <b style="color: #591616">Criar  <small>&nbsp;Tarefa</small></b>
+                        <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label>Título</label>
+                                        <input type="text" name="titulo" id="titulo" required placeholder="Insira o título da tarefa" autocomplete="on">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <label>Descrição</label>
+                                        <input type="text" name="descricao" id="descricao" required placeholder="Insira a descricao da tarefa" autocomplete="on">
+                                    </div>
+                                    <div class="col-lg-12">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Prioridade</label>
+                                        <select name="prioridade" id="prioridade" required>
+                                            <option value="baixa">Baixa</option>
+                                            <option value="media">Média</option>
+                                            <option value="alta">Alta</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Complexidade</label>
+                                        <select name="complexidade" id="complexidade" required>
+                                            <option value="leve">Leve</option>
+                                            <option value="moderada">Moderada</option>
+                                            <option value="alta">Alta</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Ciclo</label>
+                                        <select name="ciclo_id" id="ciclo_id" required>
+                                            @foreach($ciclos as $ciclo)
+                                                <option value="{{ $ciclo->id }}">{{ ucfirst($ciclo->label) }} &nbsp;(pausa: {{ $ciclo->tempo_pausa }} min e foco: {{ $ciclo->tempo_foco }} min)</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Quantidade de ciclos</label>
+                                        <input type="number" min="1" name="qtd_ciclos" id="qtd_ciclos" placeholder="Quantidade de ciclos" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <br>
+                                <hr>
+                            </div>
+                            <div class="col-lg-9">
+                            </div>
+                            <div class="col-lg-3" style="padding: 25px;">
+                                <button type="submit" class="button">Criar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-tarefa" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #ffffffeb !important; backdrop-filter: blur(5px); border-radius: 25px;">
+                <div class="modal-header">
+                    <b style="color: #591616">Tarefa  &nbsp;<small id="tarefa-id"></small></b>
+                    <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Título&nbsp;&nbsp;</span>
+                            <span id="tarefa-titulo"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Descrição&nbsp;&nbsp;</span>
+                            <span id="tarefa-descricao"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Complexidade&nbsp;&nbsp;</span>
+                            <span style="text-transform:capitalize;" id="tarefa-complexidade"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Prioridade&nbsp;&nbsp;</span>
+                            <span style="text-transform:capitalize;" id="tarefa-prioridade"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Tipo de ciclo&nbsp;&nbsp;</span>
+                            <span style="text-transform:capitalize;" id="tarefa-ciclo"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Quantidade de ciclos&nbsp;&nbsp;</span>
+                            <span id="tarefa-qtd_ciclos"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="color: #591616; font-weight: 500;">Tempo a tarefa&nbsp;&nbsp;</span>
+                            <span id="tarefa-tempo"></span><span> &nbsp;min</span>
+                        </div>
+                        <div class="col-lg-12">
+                            <br>
+                            <hr>
+                        </div>
+                        <div class="col-lg-2" style="padding-left: 25px;">
+                            <small>
+                                <button type="submit" class="button-delete" data-bs-dismiss="modal">Deletar</button>
+                            </small>
+                        </div>
+                        <div class="col-lg-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        function modal_create(){
+            $('#modal-add').modal('show');
         };
-        document.querySelector('#shortBreak').onclick = function(){
-            self.startShortBreak.apply(self);
+        function modal_tarefa(dados,ciclo){
+            tarefa = JSON.parse(dados);
+            document.getElementById("tarefa-id").innerHTML = tarefa['id'];
+            document.getElementById("tarefa-titulo").innerHTML = tarefa['titulo'];
+            document.getElementById("tarefa-descricao").innerHTML = tarefa['descricao'];
+            document.getElementById("tarefa-complexidade").innerHTML = tarefa['complexidade'];
+            document.getElementById("tarefa-prioridade").innerHTML = tarefa['prioridade'];
+            document.getElementById("tarefa-qtd_ciclos").innerHTML = tarefa['qtd_ciclos'];
+            document.getElementById("tarefa-ciclo").innerHTML = ciclo;
+            document.getElementById("tarefa-tempo").innerHTML = tarefa['tempo'];
+            $('#modal-tarefa').modal('show');
         };
-        document.querySelector('#longBreak').onclick = function(){
-            self.startLongBreak.apply(self);
-        };
-        document.querySelector('#stop').onclick = function(){
-            self.stopTimer.apply(self);
-        };
-        },
-        resetVariables : function(mins, secs, started){
-        this.minutes = mins;
-        this.seconds = secs;
-        this.started = started;
-        this.fillerIncrement = 200/(this.minutes*60);
-        this.fillerHeight = 0;
-        },
-        startWork: function() {
-        this.resetVariables(25, 0, true);
-        },
-        startShortBreak : function(){
-        this.resetVariables(5, 0, true);
-        },
-        startLongBreak : function(){
-        this.resetVariables(15, 0, true);
-        },
-        stopTimer : function(){
-        this.resetVariables(25, 0, false);
-        this.updateDom();
-        },
-        toDoubleDigit : function(num){
-        if(num < 10) {
-            return "0" + parseInt(num, 10);
-        }
-        return num;
-        },
-        updateDom : function(){
-        this.minutesDom.innerHTML = this.toDoubleDigit(this.minutes);
-        this.secondsDom.innerHTML = this.toDoubleDigit(this.seconds);
-        this.fillerHeight = this.fillerHeight + this.fillerIncrement;
-        this.fillerDom.style.height = this.fillerHeight + 'px';
-        },
-        intervalCallback : function(){
-        if(!this.started) return false;
-        if(this.seconds == 0) {
-            if(this.minutes == 0) {
-            this.timerComplete();
-            return;
+
+        function timer_function(){
+            var action = document.getElementById('img-start').name;
+            if(action == 'start'){
+                $('#img-start').attr('src','../assets/pausa.png');
+                $('#img-start').attr('name','stop');
+                $('#text-start').html('&nbsp;STOP');
+                if ($("input[type='radio']:checked").val()) {
+                    var tarefa = JSON.parse($("input[type='radio']:checked").val());
+                    var id = tarefa['id'];
+                    $.post("{{route('tarefas.refresh')}}", {id: id,_token: '{{csrf_token()}}'}, function(data){
+                        $("#div-cards").load(location.href + " #div-cards");
+                        setTimeout(function() {
+                            $("#rb"+id).prop("checked", true);
+                            $('input[type=radio]').attr("disabled",true);
+                        }, 1000);
+
+                    });
+                }
+            }else{
+                $('#img-start').attr('src','../assets/botao-play-ponta-de-seta.png');
+                $('#img-start').attr('name','start');
+                $('#text-start').html('&nbsp;START');
             }
-            this.seconds = 59;
-            this.minutes--;
-        } else {
-            this.seconds--;
-        }
-        this.updateDom();
-        },
-        timerComplete : function(){
-        this.started = false;
-        this.fillerHeight = 0;
-        }
-    };
-    window.onload = function(){
-    pomodoro.init();
-    };
-</script>
+        };
+
+        // Pomodoro Timer
+        var pomodoro = {
+            init: function() {
+
+                this.domVariables();
+                this.timerVariables();
+                this.bindEvents();
+                this.updateAllDisplays();
+                this.requestNotification();
+            },
+            // Define notifications to be used by Pomodoro
+            breakNotification: undefined,
+            workNotification: undefined,
+            domVariables: function() {
+
+                // Toggle timer buttons
+                this.toggleTimerBtns = document.getElementsByClassName( "toggle-timer" );
+
+                // Timer display
+                this.sessionLengthDisplay = document.getElementById( "session-length" );
+                this.breakLengthDisplay   = document.getElementById( "break-length" );
+
+                // Countdown
+                this.countdownDisplay   = document.getElementById( "countdown" );
+                this.typeDisplay        = document.getElementById( "type" );
+                this.resetCountdownBtn  = document.getElementById( "reset-session" );
+                this.stopCountdownBtn   = document.getElementById( "stop-session" );
+                this.startCountdownBtn  = document.getElementById( "start-session" );
+                this.countdownContainer = document.getElementById( "countdown-container" );
+            },
+            timerVariables: function() {
+
+                // Initial Length values
+                this.sessionLength =  $('#foco-start').html();
+                this.breakLength   =  $('#pausa-start').html();
+
+                // Define the variable that includes the setinterval method
+                // If the clock is counting down, the value will be true, and
+                // the counter will be stopped on click.
+                this.timeinterval = false;
+                this.workSession = true;
+                this.pausedTime = 0;
+                this.timePaused = false;
+                this.timeStopped = false;
+                // Request permission
+            },
+            bindEvents: function() {
+
+                // Bind start date to #countdown and countdown buttons
+                this.countdownDisplay.onclick  = pomodoro.startCountdown;
+                this.resetCountdownBtn.onclick = pomodoro.resetCountdown;
+                this.stopCountdownBtn.onclick  = pomodoro.stopCountdown;
+                this.startCountdownBtn.onclick = pomodoro.startCountdown;
+
+            },
+            updateAllDisplays: function() {
+
+                // Change HTML of displays to reflect current values
+                pomodoro.sessionLengthDisplay.innerHTML = this.sessionLength;
+                pomodoro.breakLengthDisplay.innerHTML   = this.breakLength;
+                pomodoro.countdownDisplay.innerHTML     = this.sessionLength + ":00";
+                pomodoro.resetVariables();
+
+            },
+            requestNotification: function() {
+                if (!("Notification" in window)) {
+                return console.log("This browser does not support desktop notification");
+                }
+            },
+
+            // Reset variables to initial values
+            resetVariables: function() {
+                pomodoro.timeinterval = false;
+                pomodoro.workSession = true;
+                pomodoro.pausedTime = 0;
+                pomodoro.timeStopped = false;
+                pomodoro.timePaused = false;
+            },
+            startCountdown: function() {
+
+                pomodoro.disableButtons();
+                // Toggle typeDisplay and background color between work and break
+                pomodoro.displayType();
+
+                // Pause pomodoro if countdown is currently running, otherwise start
+                // countdown
+                if ( pomodoro.timeinterval !== false ) {
+                    pomodoro.pauseCountdown();
+                } else {
+                    // Set start and end time with system time and convert to
+                    // miliseconds to correctly meassure time ellapsed
+                    pomodoro.startTime = new Date().getTime();
+
+                    // Check if pomodoro has just been unpaused
+                    if ( pomodoro.timePaused === false ) {
+                        pomodoro.unPauseCountdown();
+                    } else {
+                        pomodoro.endTime = pomodoro.startTime + pomodoro.pausedTime;
+                        pomodoro.timePaused = false;
+                    }
+
+                    // Run updateCountdown every 990ms to avoid lag with 1000ms,
+                    // Update countdown checks time against system time and updates
+                    // #countdown display
+                    pomodoro.timeinterval = setInterval(pomodoro.updateCountdown,990);
+                }
+
+            },
+            updateCountdown: function() {
+
+                // Get differnce between the current time and the
+                // end time in miliseconds. difference = remaining time
+                var currTime = new Date().getTime();
+                var difference = pomodoro.endTime - currTime;
+
+                // Convert remaining milliseconds into minutes and seconds
+                var seconds = Math.floor( ( difference/1000 ) % 60 );
+                var minutes = Math.floor( ( difference/1000 ) / 60 % 60 );
+
+                // Add 0 to seconds if less than ten
+                if ( seconds < 10 ) { seconds = "0" + seconds; }
+
+                // Display remaining minutes and seconds, unless there is less than 1 second
+                // left on timer. Then change to next session.
+                if ( difference > 1000 ) {
+                pomodoro.countdownDisplay.innerHTML = minutes + ":" + seconds;
+                } else {
+                pomodoro.changeSessions();
+                }
+
+            },
+            changeSessions: function() {
+
+                // Stop countdown
+                clearInterval( pomodoro.timeinterval );
+
+                pomodoro.playSound();
+
+                // Toggle between workSession being active or not
+                // This determines if break session or work session is displayed
+                if ( pomodoro.workSession === true ) {
+                    pomodoro.workSession = false;
+                } else {
+                    pomodoro.workSession = true;
+                }
+
+                // Stop countdown
+                pomodoro.timeinterval = false;
+                // Restart, with workSession changed
+                pomodoro.startCountdown();
+
+            },
+            pauseCountdown: function() {
+
+                    // Save paused time to restart clock at correct time
+                    var currTime = new Date().getTime();
+                    pomodoro.pausedTime = pomodoro.endTime - currTime;
+                    pomodoro.timePaused = true;
+
+                    // Stop the countdown on second click
+                    clearInterval( pomodoro.timeinterval );
+
+
+                    // Reset variable so that counter will start again on click
+                    pomodoro.timeinterval = false;
+            },
+            unPauseCountdown: function() {
+                if ( pomodoro.workSession === true ) {
+                    pomodoro.endTime = pomodoro.startTime + ( pomodoro.sessionLength * 60000 );
+                } else {
+                    pomodoro.endTime = pomodoro.startTime + ( pomodoro.breakLength * 60000 );
+                }
+            },
+            resetCountdown: function(){
+                // Stop clock and reset variables
+                clearInterval( pomodoro.timeinterval );
+                pomodoro.resetVariables();
+                // Restart variables
+                pomodoro.startCountdown();
+            },
+            stopCountdown: function() {
+                // Stop timer
+                clearInterval( pomodoro.timeinterval );
+                // Change HTML
+                pomodoro.updateAllDisplays();
+                // Reset Variables
+                pomodoro.resetVariables();
+                pomodoro.unDisableButtons();
+            },
+            displayType: function() {
+                // Check what session is running and change appearance and text above
+                // countdown depending on session (break or work)
+                if ( pomodoro.workSession === true ) {
+
+                    // pomodoro.typeDisplay.innerHTML = "Work session";
+                    $('#pomodoro-status').html('<img src="../assets/Ellipse_1.png" style="height: 45px;"> <img src="../assets/Line_1.png"> <img src="../assets/Ellipse_2.png" style="height: 45px;"><br><span style="margin-left: 5px; color:#591616; font-weight: 300;">Foco</span> <span style="margin-left: 57px; color:#591616; font-weight: 300;">Descanso</span>');
+                    pomodoro.countdownContainer.className = pomodoro.countdownContainer.className.replace( "break", "" );
+                } else {
+                    $('#pomodoro-status').html('<img src="../assets/Ellipse_2.png" style="height: 45px;"> <img src="../assets/Line_1.png"> <img src="../assets/Ellipse_1.png" style="height: 45px;"><br><span style="margin-left: 5px; color:#591616; font-weight: 300;">Foco</span> <span style="margin-left: 57px; color:#591616; font-weight: 300;">Descanso</span>');
+                    // pomodoro.typeDisplay.innerHTML = "Break";
+                    if ( pomodoro.countdownContainer.className !== "break" ) {
+                        pomodoro.countdownContainer.className += "break";
+                    }
+                }
+
+            },
+            playSound: function() {
+                var mp3 = "http://soundbible.com/grab.php?id=1746&type=mp3";
+                var audio = new Audio(mp3);
+                audio.play();
+            },
+            disableButtons: function() {
+                for (var i = 0; i < pomodoro.toggleTimerBtns.length; i++) {
+                    pomodoro.toggleTimerBtns[i].setAttribute("disabled", "disabled");
+                    pomodoro.toggleTimerBtns[i].setAttribute("title", "Stop the countdown to change timer length");
+                }
+            },
+            unDisableButtons: function() {
+                for (var i = 0; i < pomodoro.toggleTimerBtns.length; i++) {
+                    pomodoro.toggleTimerBtns[i].removeAttribute("disabled");
+                    pomodoro.toggleTimerBtns[i].removeAttribute("title");
+                }
+            }
+        };
+
+        // Initialise on page load
+        pomodoro.init();
+    </script>
+@endsection
