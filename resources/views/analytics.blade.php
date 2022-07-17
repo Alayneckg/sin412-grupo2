@@ -2,6 +2,7 @@
 @extends('layouts.app')
 
 @section('css')
+    <link rel="shortcut icon" href="../assets/tomato tasks logo icon.png" type="image/x-icon">
     <style>
         .card{
             text-align:center;

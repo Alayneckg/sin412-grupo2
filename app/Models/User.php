@@ -26,6 +26,8 @@ class User extends Authenticatable
         'phone',
         'password',
         'TDAH',
+        'papel',
+        'cadastro'
     ];
 
     /**

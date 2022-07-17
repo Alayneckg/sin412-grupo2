@@ -50,6 +50,22 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function tdah(Request $request){
+        $user = Auth::user();
+        if($request['tdah'] == 1){
+            $tdah = true;
+        }else{
+            $tdah = false;
+        }
+        $user->update(
+            [
+                'TDAH' => $tdah,
+                'cadastro' => true,
+            ]
+        );
+        return redirect()->back();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

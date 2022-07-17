@@ -30,6 +30,9 @@
             box-shadow: 0px 4px 8px rgba(darken(dodgerblue, 30%));
             transform: scale(.98);
         }
+        li{
+            font-weight:300;
+        }
         .timer{
             background-color: #ffffff;
             color: #591616;
@@ -168,6 +171,11 @@
             color: white !important;
             background-color: #591616 !important;
         }
+        .badge-tomato{
+            color: #078C2D;
+            background-color: white;
+            outline: 1px solid #078C2D;
+        }
         .group input[type="radio"] {
             position: absolute;
             opacity: 0;
@@ -253,6 +261,17 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <span style="font-size: 2.5rem; margin: 0; font-weight: 700; color: #591616;">Pomodoro board</span>
+                </div>
+                <div class="col-sm-6" style="text-align:end">
+                    @if(Auth::user()->cadastro == false)
+                        <a href="{{ route('configuracoes') }}">
+                            <span class="badge badge-tomato">Finalizar cadastro</span>
+                        </a>
+                    @endif
+                    &nbsp;&nbsp;&nbsp;
+                    <a onclick="modal_pomodoro()" style="cursor: pointer;">
+                        <span style="font-size: 1rem; margin: 0; font-weight: 300; color: #591616;" >O que é a técnica Pomodoro?</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -481,6 +500,65 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="modal-pomodoro" role="dialog">
+        <div class="modal-dialog modal-lg" style="max-width: 60% !important;">
+            <div class="modal-content" style="background-color: #ffffffde !important; backdrop-filter: blur(5px); border-radius: 25px;">
+                <div class="modal-header">
+                    <b style="color: #591616">Tomato Task</b>
+                    <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-12" style="padding-left: 40px;padding-right: 40px; text-align: justify;">
+                                    <p style="color:#8C1515; font-weight:500">O que é o Tomato Tasks?</p>
+                                    <span style="font-weight:300">Tomato tasks é uma cronômetro pomodoro personalizável que funciona via navegador Web. O objetivo deste aplicativo é ajudá-lo a se concentrar em qualquer tarefa em que esteja trabalhando, como estudar, escrever ou codificar. Este aplicativo é inspirado na Técnica Pomodoro, que é um método de gerenciamento de tempo desenvolvido por Francesco Cirillo.</span>
+                                    <br>
+                                    <!-- <div style="text-align:center" >
+                                        <img style="width:60%;" src="https://miro.medium.com/max/1264/0*TL8Rx6HbALVC3LFi">
+                                        <br>
+                                        <small><small class="text-muted"> Fonte: <a href="https://medium.com/caiquefortunato/o-que-%C3%A9-e-como-usar-a-t%C3%A9cnica-pomodoro-e151131b94ee">Medium.com</a></small></small>
+                                    </div> -->
+                                    <br>
+                                    <p style="color:#8C1515; font-weight:500">O que é a técnica Pomodoro?</p>
+                                    <span style="font-weight:300">A Técnica Pomodoro foi criada por Francesco Cirillo para uma forma mais produtiva de trabalhar e estudar. A técnica usa um cronômetro para dividir o trabalho em intervalos(ou ciclos), tradicionalmente de 25 minutos, separados por pequenos intervalos. Cada intervalo é conhecido como pomodoro, da palavra italiana para 'tomate', em homenagem ao cronômetro de cozinha em forma de tomate que Cirillo usou quando estudante universitário. </span>
+                                    <br>
+                                    <small><small class="text-muted"> Fonte: <a href="https://pt.wikipedia.org/wiki/T%C3%A9cnica_pomodoro">Wikipédia.org</a></small></small>
+                                    <br>
+                                    <br>
+                                    <p style="color:#8C1515; font-weight:500">Como usar o cronômetro Pomodoro?</p>
+                                    <span >
+                                        <ol>
+                                            <li>Crie suas tarefas na categoria “To do”.</li>
+                                            <li>Escolha uma das opções de ciclos pomodoro (20, 25 ou 30 minutos de trabalho).</li>
+                                            <li>Selecione a tarefa a ser realizada.</li>
+                                            <li>Inicie o cronômetro e foque totalmente na tarefa durante o todo o primeiro ciclo.</li>
+                                            <li>Após o alarme tocar, descanse durante o segundo ciclo, fique de olho no indicador de foco ou descanso ao lado do cronômetro.</li>
+                                            <li>Iterar os ciclos até finalizar a tarefa desejada.</li>
+                                        </ol>
+                                    </span>
+                                    <br>
+                                    <p style="color:#8C1515; font-weight:500">Recursos adicionais</p>
+                                    <span>
+                                        <ul>
+                                            <li>Presta suporte a usuários que possuem Transtorno de Déficit de Atenção e Hiperatividade (TDAH).</li>
+                                            <li>Alarme de aviso ao encerrar os ciclos.</li>
+                                            <li>Histórico de tarefas.</li>
+                                            <li>Dashboard para análise de desempenh0.</li>
+                                        </ul>
+                                    </span>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="modal-add" role="dialog">
         <div class="modal-dialog modal-lg" style="max-width: 60% !important;">
             <form id="contact" action="{{ route('tarefas.store')}}" method="POST">
@@ -992,6 +1070,9 @@
         // }
 
         // Funções modais
+        function modal_pomodoro(){
+            $('#modal-pomodoro').modal('show');
+        };
         function modal_create(){
             $('#modal-add').modal('show');
         };

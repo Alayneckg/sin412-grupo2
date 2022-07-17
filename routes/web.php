@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth:web']], function () {
 
     Route::get('/', [Controller::class, 'index'])->name('dashboard');
 
+    Route::get('/sobre', function () { return view('sobre'); })->name('sobre');
+
     Route::get('/configuracoes', [UserController::class, 'configuracoes'])->name('configuracoes');
 
     // Tarefas
@@ -49,9 +51,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/admin/analytics', [RelatorioController::class, 'admin'])->name('analytics.admin');
 
     // User
-    Route::get('/usuario/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::get('/usuario/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/usuario/update', [UserController::class, 'update'])->name('users.update');
+    Route::post('/usuario/tdah', [UserController::class, 'tdah'])->name('users.tdah');
     Route::post('/usuario/admin/destroy', [UserController::class, 'destroy'])->name('users.destroy');
 });
 

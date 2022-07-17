@@ -66,7 +66,7 @@
             color: #2a2a2a;
             padding: 0px 20px;
             border-radius: 23px;
-            margin-top: 30px;
+            margin-top: 10px;
             box-shadow: 3px 3px 6px rgb(163 177 198 / 49%), 3px 3px 6px rgb(255 255 255);
         }
         input{
@@ -81,7 +81,7 @@
             color: #2a2a2a;
             padding: 0px 20px;
             border-radius: 23px;
-            margin-top: 30px;
+            margin-top: 10px;
             box-shadow: 3px 3px 6px rgb(163 177 198 / 49%), 3px 3px 6px rgb(255 255 255);
         }
         .icon{
@@ -109,8 +109,15 @@
         }
         label{
             color: #565656;
+            margin-top: 15px;
+            margin-left: 15px;
         }
-
+        .badge-tomato{
+            color: #078C2D;
+            background-color: white;
+            outline: 1px solid #078C2D;
+            margin: 5px;
+        }
     </style>
 @endsection
 
@@ -129,7 +136,7 @@
             <div class="row">
                 <!-- Minha conta -->
                 <div class="col-lg-12">
-                    <div class="card collapsed-card">
+                    <div @if(Auth::user()->papel == 'admin') class="card collapsed-card" @else class="card" @endif>
                         <div class="card-header">
                             <h5 class="card-title">Minha conta</h5>
                             <div class="card-tools">
@@ -163,8 +170,13 @@
                                     <strong>Telefone</strong>
                                     <p class="text-muted">{{ $myUser->phone}} </p>
                                     <hr>
-                                    <strong>Possui algum transtorno neurobiológicos?</strong>
-                                    <p class="text-muted">{!!$myUser->TDAH == 1 ? 'Sim' : 'Não'!!} </p>
+                                    @if(Auth::user()->cadastro == false)
+                                        <strong>Possui algum transtorno neurobiológicos?</strong>
+                                        <br><span class="badge badge-tomato" onclick="modal_tdah()">Finalizar cadastro! Clique aqui</span>
+                                    @else
+                                        <strong>Possui algum transtorno neurobiológicos?</strong>
+                                        <p class="text-muted">{!!$myUser->TDAH == 1 ? 'Sim' : 'Não'!!} </p>
+                                    @endif
                                     <hr>
                                     <br>
                                     <br>
@@ -329,15 +341,19 @@
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-lg-3">
+                                        <label>Nome</label>
                                         <input type="name" name="name" id="name" placeholder="Insira seu Nome" autocomplete="on" value="{{isset($myUser) ? $myUser->name : ''}}">
                                     </div>
                                     <div class="col-lg-2">
+                                        <label>Telefone</label>
                                         <input type="text" name="phone" id="phone" placeholder="Insira seu Telefone" value="{{isset($myUser) ? $myUser->phone : ''}}">
                                     </div>
                                     <div class="col-lg-3">
+                                        <label>Email</label>
                                         <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Insira seu Email" value="{{isset($myUser) ? $myUser->email : ''}}">
                                     </div>
-                                    <div class="col-lg-1">
+                                    <div class="col-lg-3">
+                                        <label>Possui transtornos neurobiológicos?</label>
                                         <select name="tdah" id="tdah">
                                             <option value="1" @if($myUser->tdah == 1) selected @endif >Sim</option>
                                             <option value="0" @if($myUser->tdah == 0) selected @endif >Não</option>
@@ -419,6 +435,73 @@
             </form>
         </div>
     </div>
+    <div class="modal fade" id="modal-user-tdah" role="dialog">
+        <div class="modal-dialog modal-lg" style="max-width: 60% !important;">
+            <form id="contact" action="{{ route('users.tdah')}}" method="POST">
+                {{ csrf_field() }}
+                <div class="modal-content" style="background-color: #ffffffeb !important; backdrop-filter: blur(5px); border-radius: 25px;">
+                    <div class="modal-header">
+                        <b style="color: #591616">{{ $myUser->name }}</b>
+                        <a type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12" style="padding-left: 40px;padding-right: 40px; text-align: justify;">
+                                        <span style="color:#8C1515; font-weight:500">O que é TDAH?</span><br>
+                                        <span style="font-style: italic; margin:15px; font-weight:300">“O Transtorno do Déficit de Atenção com Hiperatividade (TDAH) é um transtorno neurobiológico, de causas genéticas, que aparece na infância e freqüentemente acompanha o indivíduo por toda a sua vida. Ele se caracteriza por sintomas de desatenção, inquietude e impulsividade. Ele é chamado às vezes de DDA (Distúrbio do Déficit de Atenção). Em inglês, também é chamado de ADD, ADHD ou de AD/HD.”</span>
+                                        <br>
+                                        <small><small class="text-muted"> Fonte: <a href="https://tdah.org.br/sobre-tdah/o-que-e-tdah/">TDAH.org.br</a></small></small>
+                                        <br>
+                                        <span style="color:#8C1515; font-weight:500">Quer saber mais sobre a TDAH? Para mais informações consulte os sites:</span>
+                                        <br>
+                                        <a style="color: #D83636;font-size: .8rem; font-weight:300" href="https://tdah.org.br/sobre-tdah/o-que-e-tdah/">O que é TDAH?</a><br>
+                                        <a style=" color: #D83636;font-size: .8rem; font-weight:300" href="https://drauziovarella.uol.com.br/doencas-e-sintomas/tdah-transtorno-do-deficit-de-atencao-com-hiperatividade/">TDAH (Transtorno do Deficit de Atencao com Hiperatividade)</a>
+                                        <br>
+                                        <br>
+                                        <span style="color:#8C1515; font-weight:500">Você se encaixa em alguns dos sintomas descritos?</span><br>
+                                        <span style="font-weight:300">Procure o diagnóstico clínico com um profissional de saúde capacitado para confirmar se possui TDAH.</span>
+                                        <br>
+                                        <span style="font-weight:300">Preencha o questionário de avaliação de sintomas ASRS-18, que foi desenvolvido por pesquisadores em colaboração com a Organização Mundial de Saúde. Esta é a versão validada no Brasil:</span>
+                                        <br>
+                                        <a style="color: #D83636;font-size: .8rem; font-weight:300" href="https://tdah.org.br/diagnostico-adultos/">Diagnostico para adultos</a>
+                                        <br>
+                                        <a style="color: #D83636;font-size: .8rem; font-weight:300" href="https://tdah.org.br/diagnostico-criancas/">Diagnostico para crianças</a>
+                                        <br>
+                                        <br>
+                                        <span style="font-weight:400;">Esta plataforma não tem como objetivo promover o auto diagnóstico por parte de seus usuários acerca se eles possuem determinada condição neurobiológica ou não e  reforçamos, primeiramente, a importância do diagnóstico clínico com o profissional de saúde capacitado.</span>
+                                    </div>
+                                    <div class="col-lg-5" style="padding-left: 40px;">
+                                        <br>
+                                        <span style="font-weight: 500"> Possui algum transtorno neurobiológico?</span>
+                                        <select name="tdah" id="tdah" style="margin-top: 10px;">
+                                            <option value="1">Sim</option>
+                                            <option value="0">Não</option>
+                                            <option value="0">Prefiro não responder</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-12" style="padding-left: 40px; padding-top: 20px; text-align: justify;">
+                                        <span style="color:#8C1515; font-weight:500">OBS: Esta informação será utilizado apenas para desenvolvimento desta plataforma e não será divulgado.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <hr>
+                            </div>
+                            <div class="col-lg-9">
+                            </div>
+                            <div class="col-lg-3" style="padding-right: 25px; padding-top: 10px">
+                                <button type="submit" class="button-user" >Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     @if(Auth::user()->papel == 'admin')
         <!-- Usuários -->
         <div class="modal fade" id="modal-users-edit" role="dialog">
@@ -462,15 +545,19 @@
                                     <div class="row">
                                         <input type="hidden" name="id" id="id-edit" value="">
                                         <div class="col-lg-3">
+                                            <label>Nome</label>
                                             <input type="name" name="name" id="name-edit" placeholder="Insira seu Nome" autocomplete="on" value="">
                                         </div>
                                         <div class="col-lg-2">
+                                            <label>Telefone</label>
                                             <input type="text" name="phone" id="phone-edit" placeholder="Insira seu Telefone" value="">
                                         </div>
                                         <div class="col-lg-3">
+                                            <label>Email</label>
                                             <input type="text" name="email" id="email-edit" pattern="[^ @]*@[^ @]*" placeholder="Insira seu Email" value="">
                                         </div>
-                                        <div class="col-lg-1">
+                                        <div class="col-lg-3">
+                                            <label>Possui transtornos neurobiológicos?</label>
                                             <select name="tdah" id="tdah">
                                                 <option value="1" id="tdah-1">Sim</option>
                                                 <option value="0" id="tdah-0">Não</option>
@@ -703,6 +790,9 @@
         }
         function destroy(){
             $('#modal-user-destroy').modal('show');
+        }
+        function modal_tdah(){
+            $('#modal-user-tdah').modal('show');
         }
         @if(Auth::user()->papel == 'admin')
             // Usuários
