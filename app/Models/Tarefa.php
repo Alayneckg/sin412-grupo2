@@ -12,7 +12,7 @@ class Tarefa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'titulo', 'descricao', 'tempo', 'qtd_ciclos', 'status', 'complexidade', 'prioridade', 'estagio', 'user_id', 'ciclo_id'
+        'titulo', 'descricao', 'tempo', 'qtd_ciclos', 'status', 'complexidade', 'prioridade', 'user_id', 'ciclo_id'
     ];
 
     public function user()
