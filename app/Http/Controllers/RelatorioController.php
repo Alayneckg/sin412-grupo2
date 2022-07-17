@@ -44,7 +44,11 @@ class RelatorioController extends Controller
                 $criacao = (new Datetime($tarefa->created_at))->format('Y-m-d');
                 $relatorio['frequencia'][$criacao][] = $tarefa;
             }
-            $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['total'];
+            if($relatorio['total'] == 0){
+                $relatorio['media_ciclos'] == 0;
+            }else{
+                $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['total'];
+            }
             $relatorio['total_dias'] = count($relatorio['frequencia']);
         }
         return view('analytics',[
@@ -89,12 +93,20 @@ class RelatorioController extends Controller
                 $relatorio['total_ciclos'] = $relatorio['total_ciclos'] + $tarefa['qtd_ciclos'];
                 $relatorio['frequencia'][$criacao]['total'][] = $tarefa;
             }
-            $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['tarefas'];
+            if($relatorio['tarefas'] == 0){
+                $relatorio['media_ciclos'] == 0;
+            }else{
+                $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['tarefas'];
+            }
             $relatorio['total_dias'] = count($relatorio['frequencia']);
             foreach($relatorio['frequencia'] as $dado){
                 $relatorio['tempo'] = $tarefa->ciclo->tempo_foco + $tarefa->ciclo->tempo_pausa;
             }
-            $relatorio['media_tempo'] = $relatorio['tempo'] / count($relatorio['frequencia']);
+            if(count($relatorio['frequencia']) == 0){
+                $relatorio['media_tempo'] == 0;
+            }else{
+                $relatorio['media_tempo'] = $relatorio['tempo'] / count($relatorio['frequencia']);
+            }
         }
 
         return view('analytics_admin',[
