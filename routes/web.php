@@ -34,11 +34,9 @@ Route::group(['middleware' => ['auth:web']], function () {
     // Tarefas
     Route::get('/tarefas', [TarefaController::class, 'index'])->name('tarefas');
     Route::post('/tarefas/store', [TarefaController::class, 'store'])->name('tarefas.store');
-    Route::get('/tarefas/{tarefas}', [TarefaController::class, 'show'])->name('tarefas.show');
-    Route::get('/tarefas/{tarefas}/edit', [TarefaController::class, 'edit'])->name('tarefas.edit');
-    Route::post('/tarefas/{tarefas}', [TarefaController::class, 'update'])->name('tarefas.update');
+    Route::post('/tarefas/update', [TarefaController::class, 'update'])->name('tarefas.update');
     Route::post('/tarefas/update/refresh', [TarefaController::class, 'refresh'])->name('tarefas.refresh');
-    Route::post('/tarefas/destroy/{tarefas}', [TarefaController::class, 'destroy'])->name('tarefas.destroy');
+    Route::post('/tarefas/destroy', [TarefaController::class, 'destroy'])->name('tarefas.destroy');
 
     // Ciclos
     Route::post('/ciclos/store', [CicloController::class, 'store'])->name('ciclos.store');
@@ -48,6 +46,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/calendario', [TarefaController::class, 'calendario'])->name('calendario');
 
     Route::get('/analytics', [RelatorioController::class, 'index'])->name('analytics');
+    Route::get('/admin/analytics', [RelatorioController::class, 'admin'])->name('analytics.admin');
 
     // User
     Route::get('/usuario/{user}', [UserController::class, 'show'])->name('users.show');

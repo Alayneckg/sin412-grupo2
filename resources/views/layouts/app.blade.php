@@ -104,12 +104,22 @@
                                     &nbsp;&nbsp;<p @if(Request::is('analytics')) style="text-decoration: underline solid white; text-underline-offset: 0.3em;" @endif> Analytics </p>
                                 </a>
                             </li>
+                            @if(Auth::user()->papel == 'admin')
                             <li class="nav-item">
+                                <a href="{{ route('analytics.admin') }}" @if(Request::is('analytics.admin')) class="nav-link active" @else class="nav-link" @endif>
+                                    <i class="nav-icon">
+                                        <img style="width: 1.8rem" alt="Analytics Admin" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABmJLR0QA/wD/AP+gvaeTAAAEEklEQVR4nO2bT4gcRRjF3zfJaiQiXjU3PQQ8ekg8eRTBizdhRa8S8BDwoJhLjIgxuAlq1kli1MBiiAe9J8SDVwVvKiwGQlAQUQluVtxV8/PQNW5NdVXP9O501/RkHixUd/3p915VfV1dNWvKBKAn6Vl3+YmZ3c7FJQuA59nCc7l49HI9WNJDXvrhXCRskABOSDosaSEXmZbwt6RTZvayNGzAhqS7crFqGZtmdrc0bAD5+LQPMzNJ2l2VOWuIdXLOIDgVmBuQm0BuzA3ITSA35gbkJpAbnTEAOAFsMh42gbfGaTe6EpzGhRCwJuneGlX+X+56bZQ0dmYESFqWtFmjfL3vGn/81KqYGYABp2PzIFI2rbGLBjjxy6lAECk/OwY48ecCzf07woBEz58DejNvgBP/fkS8ufzpMgDYAxwADgL37LCtHnA+EL88EO/KTIcBrqdeAm56Ta8BRyi2xOu21wM+DMSf9sWP0tGaAU78UEAKsALsqtFeD/goaOO9UPwoHa0Y4MSfCch+B3y7HROc+I+Duu/GxLvyG67MRi2NkzAgIb7vRPQoj4pKE1ydC0Gdd1LiXZ3jwC3gzVYNIP5q+gBvvhNftV0CSpuzCfH9KvFjcGzGgHHEB2UrTQB2RcSf2on4kRp3aMBSQPZMFVniU2UFWHB/K5MW757bmAFr44r36sRMuA7cCO6drMun4pmNGfA6ReBZqtNTCRN8LNXlMuJ5zRiwQ1IGHAZ+9Sj8DLzQwLNKGqdmR4giCO6XdFvSqpn928AzShprGeCG96IjecnMpvrDKUSlxlFTIDJfFxvmO3HENI71UeJ6vi/Jn5ez9ZueqhEALAbReaxX3bRh2yNAXqyQdFbSoa7N/xSiP5CI4KK2hnzngl8VpuY12AZiGv0pcMsr+ECLvFoBsM+7/GOQ8A1Y9dJPNc6offiaVku5wKtekPwNONAet2ZBsSH7u6fvlUGeHwPuk/S9pAfdrX8kXZb0jaT1NglPEHslPSrpSUmDnacfJT1iZmvS8OtNrtcvS7q/RZJt4qakJ8zs68GNoXWAmX0l6TFJX7RMrA1clXTQFy8FI8AHsF/S45L2SdrTLLfG8JeknyR9aWblwDfHHOkp0DSABRVfl+uSLszS8nokKHZ+P/fey+fZxnlhJxERf+eYUCF+9k0YQ/zsmuDEfxYI/SWRho7uOEWR6PmzwGve9VHK54XdHwkJ8X2KHeajgQGxQ9PumpAQf5KtHzMNGeDuzYYJCfFvB2VKBrj73TaBeMA7HikXNcDlxQ5NuxEYgRcD4m8kyiUNcPkxEyZ+GtXEsPrTSx8zsyOJcte89A9hpvs2OKTiHGKAiZ9GTXxIuWH6tKR1M7tSUa6n4qBVki6m/n3etfeMu/x00h9N/wHFF245tjEgiwAAAABJRU5ErkJggg==">
+                                    </i>
+                                    &nbsp;&nbsp;<p @if(Request::is('analytics.admin')) style="text-decoration: underline solid white; text-underline-offset: 0.3em;" @endif> Analytics <small>Admin</small></p>
+                                </a>
+                            </li>
+                            @endif
+                            <!-- <li class="nav-item">
                                 <a href="{{ route('calendario') }}" @if(Request::is('calendario')) class="nav-link active" @else class="nav-link" @endif>
                                     <i class="nav-icon"><img src="../assets/calendar.png" style="width: 1.8rem" alt="Calendário"></i>
                                     &nbsp;&nbsp;<p @if(Request::is('calendario')) style="text-decoration: underline solid white; text-underline-offset: 0.3em;" @endif> Calendário </p>
                                 </a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <a href="{{ route('configuracoes') }}" @if(Request::is('configuracoes')) class="nav-link active" @else class="nav-link" @endif>
                                     <i class="nav-icon"><img src="../assets/settings.png" style="width: 1.8rem" alt="Configurações"></i>

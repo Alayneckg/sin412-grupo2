@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use App\Models\Ciclo;
+use App\Models\Tarefa;
 use App\Models\Relatorio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RelatorioController extends Controller
 {
@@ -14,75 +18,41 @@ class RelatorioController extends Controller
      */
     public function index()
     {
-        $relatorios = Relatorio::all();
+        $tarefas = Auth::user()->tarefas()->get();
+        $relatorio = [];
+        $relatorio['criadas'] = 0;
+        $relatorio['interrompidas'] = 0;
+        $relatorio['finalizadas'] = 0;
+        $relatorio['total'] = count($tarefas);
+        $relatorio['total_ciclos'] = 0;
+        $relatorio['total_foco'] = 0;
+        $relatorio['frequencia'] = [];
+        foreach($tarefas as $tarefa){
+            if($tarefa->status == 'To do'){
+                $relatorio['criadas']++;
+            }
+            if($tarefa->status == 'Doing'){
+                $relatorio['interrompidas']++;
+            }
+            if($tarefa->status == 'Done'){
+                $relatorio['finalizadas']++;
+                $relatorio['total_foco'] = $relatorio['total_foco'] + $tarefa->ciclo->tempo_foco;
+            }
+            $relatorio['total_ciclos'] = $relatorio['total_ciclos'] + $tarefa['qtd_ciclos'];
+            $criacao = (new Datetime($tarefa->created_at))->format('Y-m-d');
+            $relatorio['frequencia'][$criacao][] = $tarefa;
+        }
+        $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['total'];
+        $relatorio['total_dias'] = count($relatorio['frequencia']);
         return view('analytics',[
-            'relatorios' => $relatorios,
+            'tarefas' => $tarefas,
+            'relatorio' => $relatorio,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function admin()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Relatorio  $relatorio
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Relatorio $relatorio)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Relatorio  $relatorio
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Relatorio $relatorio)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Relatorio  $relatorio
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Relatorio $relatorio)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Relatorio  $relatorio
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Relatorio $relatorio)
-    {
-        //
+        return view('analytics_admin',[
+        ]);
     }
 }

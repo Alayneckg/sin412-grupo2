@@ -55,6 +55,9 @@ class CicloController extends Controller
     public function destroy(Request $request)
     {
         $ciclo = Ciclo::findOrFail($request['id']);
+        foreach($ciclo->tarefas as $tarefa){
+            $tarefa->delete();
+        }
         $ciclo->delete();
         return redirect()->back();
     }
