@@ -139,7 +139,7 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
-        @if(!empty($relatorios))
+        @if(!empty($relatorio))
             Highcharts.chart('highcharts-pizza-usuario', {
                 chart: {
                     plotBackgroundColor: null,
