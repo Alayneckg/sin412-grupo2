@@ -125,122 +125,124 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
-        Highcharts.chart('highcharts-pizza', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                backgroundColor: 'transparent',
-            },
-            title: {
-                text: 'Tarefas'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    }
-                }
-            },
-            credits:{
-                enabled:false
-            },
-            series: [{
-                colorByPoint: true,
-                data: [{
-                    name: 'Finalizadas',
-                    y: {{ ($relatorio["finalizadas"]/$relatorio["total"])*100 }},
-                    sliced: true,
-                    selected: true,
-                    color: '#A62929'
-                }, {
-                    name: 'Em andamento',
-                    y: {{ (($relatorio["total"]-$relatorio["finalizadas"])/$relatorio["total"])*100 }},
-                    color: '#DF7B7B'
-                }]
-            }]
-        });
-        Highcharts.chart('highcharts-linha', {
-
-            title: {
-                text: 'Uso da plataforma'
-            },
-
-            subtitle: {
-                text: 'Dias x Tarefas'
-            },
-
-            yAxis: {
+        @if(!empty($relatorios))
+            Highcharts.chart('highcharts-pizza', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',
+                    backgroundColor: 'transparent',
+                },
                 title: {
-                    text: 'Nº de tarefas'
-                }
-            },
-
-            xAxis: {
-                categories: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        '{{ $data }}',
-                    @endforeach
-                ]
-            },
-
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-
-            // plotOptions: {
-            //     series: {
-            //         label: {
-            //             connectorAllowed: false
-            //         },
-            //         pointStart: 2010
-            //     }
-            // },
-
-            series: [{
-                name: 'Tarefas',
-                data: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        {{ count($info) }},
-                    @endforeach
-                ],
-                color: '#A62929'
-            }],
-
-            credits:{
-                enabled:false
-            },
-
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
+                    text: 'Tarefas'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                         }
                     }
+                },
+                credits:{
+                    enabled:false
+                },
+                series: [{
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Finalizadas',
+                        y: {{ ($relatorio["finalizadas"]/$relatorio["total"])*100 }},
+                        sliced: true,
+                        selected: true,
+                        color: '#A62929'
+                    }, {
+                        name: 'Em andamento',
+                        y: {{ (($relatorio["total"]-$relatorio["finalizadas"])/$relatorio["total"])*100 }},
+                        color: '#DF7B7B'
+                    }]
                 }]
-            }
+            });
+            Highcharts.chart('highcharts-linha', {
 
-        });
+                title: {
+                    text: 'Uso da plataforma'
+                },
+
+                subtitle: {
+                    text: 'Dias x Tarefas'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Nº de tarefas'
+                    }
+                },
+
+                xAxis: {
+                    categories: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            '{{ $data }}',
+                        @endforeach
+                    ]
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                // plotOptions: {
+                //     series: {
+                //         label: {
+                //             connectorAllowed: false
+                //         },
+                //         pointStart: 2010
+                //     }
+                // },
+
+                series: [{
+                    name: 'Tarefas',
+                    data: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            {{ count($info) }},
+                        @endforeach
+                    ],
+                    color: '#A62929'
+                }],
+
+                credits:{
+                    enabled:false
+                },
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+        @endif
 
     </script>
 @endsection

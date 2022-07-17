@@ -139,195 +139,197 @@
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
-        Highcharts.chart('highcharts-pizza-usuario', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                backgroundColor: 'transparent',
-            },
-            title: {
-                text: 'Usuários'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    },
-                    size: '50%'
-                }
-            },
-            credits:{
-                enabled:false
-            },
-            series: [{
-                colorByPoint: true,
-                data: [{
-                    name: 'Possuem transtorno neurobiológico',
-                    y: {{ ($relatorio["tdah"]/$relatorio["usuarios"])*100 }},
-                    sliced: true,
-                    selected: true,
-                    color: '#A62929'
-                }, {
-                    name: 'Não possuem transtorno neurobiológico',
-                    y: {{ (($relatorio["usuarios"]-$relatorio["tdah"])/$relatorio["usuarios"])*100 }},
-                    color: '#DF7B7B'
-                }]
-            }]
-        });
-        Highcharts.chart('highcharts-pizza-tarefa', {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie',
-                backgroundColor: 'transparent',
-            },
-            title: {
-                text: 'Tarefas'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-                point: {
-                    valueSuffix: '%'
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                    },
-                    size: '50%'
-                }
-            },
-            credits:{
-                enabled:false
-            },
-            series: [{
-                colorByPoint: true,
-                data: [{
-                    name: 'Em andamento',
-                    y: {{ (($relatorio["tarefas"]-$relatorio["finalizadas"])/$relatorio["tarefas"])*100 }},
-                    color: '#A62929'
-                },{
-                    name: 'Finalizadas',
-                    y: {{ ($relatorio["finalizadas"]/$relatorio["tarefas"])*100 }},
-                    sliced: true,
-                    selected: true,
-                    color: '#591616'
-                }]
-            }]
-        });
-        Highcharts.chart('highcharts-linha', {
-
-            title: {
-                text: 'Uso da plataforma'
-            },
-
-            subtitle: {
-                text: 'Dias x Tarefas'
-            },
-
-            yAxis: {
+        @if(!empty($relatorios))
+            Highcharts.chart('highcharts-pizza-usuario', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',
+                    backgroundColor: 'transparent',
+                },
                 title: {
-                    text: 'Nº de tarefas'
-                }
-            },
-
-            xAxis: {
-                categories: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        '{{ $data }}',
-                    @endforeach
-                ]
-            },
-
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-
-            // plotOptions: {
-            //     series: {
-            //         label: {
-            //             connectorAllowed: false
-            //         },
-            //         pointStart: 2010
-            //     }
-            // },
-
-            series: [{
-                name: 'Tarefas',
-                data: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        {{ count($info['total']) }},
-                    @endforeach
-                ],
-                color: '#078C2D'
-            },{
-                name: 'To do',
-                data: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        {{ count($info['Todo']) }},
-                    @endforeach
-                ],
-                color: '#DF7B7B'
-            },{
-                name: 'Doing',
-                data: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        {{ count($info['Doing']) }},
-                    @endforeach
-                ],
-                color: '#FF5959'
-            },{
-                name: 'Done',
-                data: [
-                    @foreach($relatorio['frequencia'] as $data => $info)
-                        {{ count($info['Done']) }},
-                    @endforeach
-                ],
-                color: '#D83636'
-            }],
-
-            credits:{
-                enabled:false
-            },
-
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
+                    text: 'Usuários'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
                     }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        },
+                        size: '50%'
+                    }
+                },
+                credits:{
+                    enabled:false
+                },
+                series: [{
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Possuem transtorno neurobiológico',
+                        y: {{ ($relatorio["tdah"]/$relatorio["usuarios"])*100 }},
+                        sliced: true,
+                        selected: true,
+                        color: '#A62929'
+                    }, {
+                        name: 'Não possuem transtorno neurobiológico',
+                        y: {{ (($relatorio["usuarios"]-$relatorio["tdah"])/$relatorio["usuarios"])*100 }},
+                        color: '#DF7B7B'
+                    }]
                 }]
-            }
+            });
+            Highcharts.chart('highcharts-pizza-tarefa', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie',
+                    backgroundColor: 'transparent',
+                },
+                title: {
+                    text: 'Tarefas'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                        },
+                        size: '50%'
+                    }
+                },
+                credits:{
+                    enabled:false
+                },
+                series: [{
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Em andamento',
+                        y: {{ (($relatorio["tarefas"]-$relatorio["finalizadas"])/$relatorio["tarefas"])*100 }},
+                        color: '#A62929'
+                    },{
+                        name: 'Finalizadas',
+                        y: {{ ($relatorio["finalizadas"]/$relatorio["tarefas"])*100 }},
+                        sliced: true,
+                        selected: true,
+                        color: '#591616'
+                    }]
+                }]
+            });
+            Highcharts.chart('highcharts-linha', {
 
-        });
+                title: {
+                    text: 'Uso da plataforma'
+                },
+
+                subtitle: {
+                    text: 'Dias x Tarefas'
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Nº de tarefas'
+                    }
+                },
+
+                xAxis: {
+                    categories: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            '{{ $data }}',
+                        @endforeach
+                    ]
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                // plotOptions: {
+                //     series: {
+                //         label: {
+                //             connectorAllowed: false
+                //         },
+                //         pointStart: 2010
+                //     }
+                // },
+
+                series: [{
+                    name: 'Tarefas',
+                    data: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            {{ count($info['total']) }},
+                        @endforeach
+                    ],
+                    color: '#078C2D'
+                },{
+                    name: 'To do',
+                    data: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            {{ count($info['Todo']) }},
+                        @endforeach
+                    ],
+                    color: '#DF7B7B'
+                },{
+                    name: 'Doing',
+                    data: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            {{ count($info['Doing']) }},
+                        @endforeach
+                    ],
+                    color: '#FF5959'
+                },{
+                    name: 'Done',
+                    data: [
+                        @foreach($relatorio['frequencia'] as $data => $info)
+                            {{ count($info['Done']) }},
+                        @endforeach
+                    ],
+                    color: '#D83636'
+                }],
+
+                credits:{
+                    enabled:false
+                },
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+        @endif
 
     </script>
 @endsection
