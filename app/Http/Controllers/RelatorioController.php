@@ -45,7 +45,7 @@ class RelatorioController extends Controller
                 $relatorio['frequencia'][$criacao][] = $tarefa;
             }
             if($relatorio['total'] == 0){
-                $relatorio['media_ciclos'] = [];
+                $relatorio['media_ciclos'] = 0;
             }else{
                 $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['total'];
             }
@@ -94,7 +94,7 @@ class RelatorioController extends Controller
                 $relatorio['frequencia'][$criacao]['total'][] = $tarefa;
             }
             if($relatorio['tarefas'] == 0){
-                $relatorio['media_ciclos'] = [];
+                $relatorio['media_ciclos'] = 0;
             }else{
                 $relatorio['media_ciclos'] = $relatorio['total_ciclos']/$relatorio['tarefas'];
             }
@@ -103,7 +103,7 @@ class RelatorioController extends Controller
                 $relatorio['tempo'] = $tarefa->ciclo->tempo_foco + $tarefa->ciclo->tempo_pausa;
             }
             if(count($relatorio['frequencia']) == 0){
-                $relatorio['media_tempo'] = [];
+                $relatorio['media_tempo'] = 0;
             }else{
                 $relatorio['media_tempo'] = $relatorio['tempo'] / count($relatorio['frequencia']);
             }
