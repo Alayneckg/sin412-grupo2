@@ -42,7 +42,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                @isset($relatorio)
+                @if(!empty($relatorio))
                     <!-- Usuarios -->
                     <div class="col-lg-2" style="padding: 20px;">
                         <div class="card">

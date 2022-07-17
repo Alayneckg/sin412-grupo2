@@ -21,7 +21,7 @@ class RelatorioController extends Controller
     {
         $tarefas = Auth::user()->tarefas()->get();
         $relatorio = [];
-        if(isset($tarefas)){
+        if(!empty($tarefas)){
             $relatorio['criadas'] = 0;
             $relatorio['interrompidas'] = 0;
             $relatorio['finalizadas'] = 0;
@@ -62,7 +62,7 @@ class RelatorioController extends Controller
         $tarefas = Auth::user()->tarefas()->get();
         $usuarios = User::get();
         $relatorio = [];
-        if(isset($tarefas)){
+        if(!empty($tarefas)){
             $relatorio['tdah'] = count(User::where('tdah',true)->get());
             $relatorio['usuarios'] = count($usuarios);
             $relatorio['criadas'] = 0;
